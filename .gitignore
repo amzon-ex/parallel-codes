@@ -1,0 +1,15 @@
+# Cache, checkpoints
+.ipynb_checkpoints/
+*cache*
+
+
+# Program output
+
+*_out*
+*dump*
+
+# Profiling output
+
+*_stats*
+*.prof
+*.lprof

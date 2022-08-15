@@ -98,9 +98,9 @@ class JacobiLaplace:
 
 # Instantiate and call JacobiLaplace
 def main():
-    n = 500
-    max_iter = 10000
-    tol = 1e-6
+    n = 1000
+    max_iter = 25000
+    tol = 1e-3
 
     solver = JacobiLaplace(n)
     solver.itersolve(max_iter, tol)

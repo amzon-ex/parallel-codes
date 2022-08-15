@@ -105,6 +105,8 @@ class JacobiLaplace:
 
     # Iterate until tolerance is reached
     def itersolve(self, max_iter, tol):
+        # Get start time
+        mytime = MPI.Wtime()
         # Carry out the iterative hunt
         for itr in range(1, max_iter + 1):
             self.interdom_transfer()
@@ -123,13 +125,17 @@ class JacobiLaplace:
             if(itr == 1 and self.rank == 0): 
                 print(f'Initial residual = {self.res[itr - 1]}')
             if(self.res[itr - 1] <= tol):
+                mytime = MPI.Wtime() - mytime
                 if(self.rank == 0): 
                     print(f'Converged in {itr} iteration(s) with maximum point error {self.res[itr - 1]}.')
+                    print(f'Time taken: {mytime:.3f} secs')
                 break
         else:
+            mytime = MPI.Wtime() - mytime
             if(self.rank == 0):
                 print(f'Maximum number of iterations ({max_iter}) exceeded.')
                 print(f'Final residual = {self.res[itr - 1]}')
+                print(f'Time taken: {mytime:.3f} secs')
 
     # Calculate the point-wise residual over all individual domains and find the global maximum
     def residual(self):
@@ -271,9 +277,9 @@ class JacobiLaplace:
 
 # Instantiate and call JacobiLaplace
 def main():
-    n = 500
-    max_iter = 20000
-    tol = 1e-5
+    n = 10000
+    max_iter = 25000
+    tol = 1e-3
 
     solver = JacobiLaplace(n)
     solver.itersolve(max_iter, tol)
